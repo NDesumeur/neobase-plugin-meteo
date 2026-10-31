@@ -1,7 +1,7 @@
 {
   "id": "neobase.meteo",
   "name": "Météo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "NDesumeur",
   "description": "Prévisions sur 10 jours, heure par heure, et qualité de l'air pour ta ville (Open-Meteo).",
   "icon": "icon.png",

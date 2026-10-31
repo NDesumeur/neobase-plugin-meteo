@@ -2,11 +2,33 @@
 // Ses données sont dans le dossier du plugin, que NeoBase sauvegarde (synchro cloud et sauvegardes) ; à la première ouverture elle reprend ce que tu avais dans NeoBase.
 // Elle demande l'accès complet pour utiliser les outils d'interface de NeoBase. NeoBase ne l'ouvre que si elle est signée.
 const HTML = "<div class=\"appWrap\">\n      <div class=\"agHead\"><span class=\"label\">Météo</span><input class=\"f\" id=\"mtCity\" placeholder=\"Autre ville… (Entrée)\" spellcheck=\"false\" style=\"width:240px;margin-left:auto;font-size:15px;padding:8px 12px\"><button class=\"btn px\" id=\"mtHome\">MA VILLE</button></div>\n      <div class=\"sysCard px\" id=\"mtNow\"></div>\n      <div class=\"sysCard px\"><span class=\"label\">Prochaines 36 heures</span><div id=\"mtHours\"></div><div class=\"chart small\"><canvas id=\"mtChart\"></canvas><div class=\"chTip\"></div></div><div class=\"hint\">Ligne : température · barres : risque de pluie · survole pour le détail</div></div>\n      <div class=\"sysCard px\"><span class=\"label\">10 jours</span><div id=\"mtDays\"></div></div>\n    </div>";
+/*CSS-MOVED*/ const CSS = `#mtNow{flex-direction:row;flex-wrap:wrap;gap:30px;align-items:center}
+.mtBig{display:flex;align-items:center;gap:24px}
+.mtTemp{font:46px var(--title);color:#fff}
+.mtDesc{font-size:18px;color:var(--lilac);margin:8px 0 4px}
+.mtGrid{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px 20px}
+.mtGrid div{display:flex;flex-direction:column;gap:6px}
+.mtGrid b{font-weight:600;color:#fff;font-size:15px}
+#mtHours{display:flex;gap:4px;overflow-x:auto;padding-bottom:6px}
+.mtHour{flex:none;width:62px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 0;background:rgba(255,255,255,.03)}
+.mtHour b{color:#fff;font-size:16px}
+.mtRain{font-size:12px;color:var(--muted)}
+.mtRain.hi{color:#7fe0ee}
+.mtDay{display:grid;grid-template-columns:120px 30px 40px 1fr 40px 150px 80px;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:15px}
+.mtDay .tn{color:#fff;text-transform:capitalize}
+.mtDay .d{color:var(--lilac);text-align:right}
+.mtRange{position:relative;height:8px;background:var(--field);box-shadow:inset 0 0 0 2px var(--line)}
+.mtRange i{position:absolute;top:0;bottom:0;background:linear-gradient(90deg,#7fe0ee,var(--pink))}
+.chTip{position:absolute;top:4px;pointer-events:none;display:none;padding:8px 10px;background:var(--win);box-shadow:0 0 0 2px var(--line2);font-size:13px;color:#fff;white-space:nowrap;line-height:1.5}
+.chTip b{display:block;font:7px var(--title);color:var(--muted);letter-spacing:1px;margin-bottom:4px}
+.chTip i{display:inline-block;width:8px;height:8px;margin-right:6px;background:var(--c)}
+`;  // le style de ce plugin (il utilise les variables du thème de NeoBase)
 export default async function (ctx) {
   const view = ctx.view;
   if (!ctx.host) { view.textContent = "Ce plugin doit être approuvé par NeoBase pour s'ouvrir."; return; }
   const host = ctx.host, { el, toast, sfx, ask, newTab, pixIcon, PIX, WX } = host;
   const folder = ctx.folder, legacy = ctx.legacy || {};
+  ctx.host.addStyle(CSS);
   view.innerHTML = HTML;
   const $ = id => id === "meteoApp" ? view : (view.querySelector('#' + id) || document.getElementById(id));  // les identifiants de ta vue d'abord, puis ceux de la page (fenêtres, menus)
   const doc = async n => { try { return await folder.read(n); } catch { return null; } };
