@@ -1,0 +1,19 @@
+{
+  "id": "neobase.meteo",
+  "name": "Météo",
+  "version": "1.0.0",
+  "author": "NDesumeur",
+  "description": "Prévisions sur 10 jours, heure par heure, et qualité de l'air pour ta ville (Open-Meteo).",
+  "icon": "icon.png",
+  "entry": "index.js",
+  "view": "meteo",
+  "neobase": ">=4.0.0",
+  "type": "app",
+  "category": "Voyage",
+  "mobile": false,
+  "system": false,
+  "dependencies": {},
+  "permissions": [
+    "full"
+  ]
+}
