@@ -1,6 +1,6 @@
 // Météo : ton appli d'origine (HTML et code inchangés), livrée en plugin.
-// Ses données sont dans le dossier du plugin, que NeoBase sauvegarde (synchro cloud et sauvegardes) ; à la première ouverture elle reprend ce que tu avais dans NeoBase.
-// Elle tourne dans le bac à sable de NeoBase, avec ses outils d'interface (ctx.host) et seulement les autorisations de son plugin.json.
+// Ses données sont dans le dossier du plugin, que NeoDex sauvegarde (synchro cloud et sauvegardes) ; à la première ouverture elle reprend ce que tu avais dans NeoDex.
+// Elle tourne dans le bac à sable de NeoDex, avec ses outils d'interface (ctx.host) et seulement les autorisations de son plugin.json.
 const HTML = "<div class=\"appWrap\">\n      <div class=\"agHead\"><span class=\"label\">Météo</span><input class=\"f\" id=\"mtCity\" placeholder=\"Autre ville… (Entrée)\" spellcheck=\"false\" style=\"width:240px;margin-left:auto;font-size:15px;padding:8px 12px\"><button class=\"btn px\" id=\"mtHome\">MA VILLE</button></div>\n      <div class=\"sysCard px\" id=\"mtNow\"></div>\n      <div class=\"sysCard px\"><span class=\"label\">Prochaines 36 heures</span><div id=\"mtHours\"></div><div class=\"chart small\"><canvas id=\"mtChart\"></canvas><div class=\"chTip\"></div></div><div class=\"hint\">Ligne : température · barres : risque de pluie · survole pour le détail</div></div>\n      <div class=\"sysCard px\"><span class=\"label\">10 jours</span><div id=\"mtDays\"></div></div>\n    </div>";
 /*CSS-MOVED*/ const CSS = `#mtNow{flex-direction:row;flex-wrap:wrap;gap:30px;align-items:center}
 .mtBig{display:flex;align-items:center;gap:24px}
@@ -22,10 +22,10 @@ const HTML = "<div class=\"appWrap\">\n      <div class=\"agHead\"><span class=\
 .chTip{position:absolute;top:4px;pointer-events:none;display:none;padding:8px 10px;background:var(--win);box-shadow:0 0 0 2px var(--line2);font-size:13px;color:#fff;white-space:nowrap;line-height:1.5}
 .chTip b{display:block;font:7px var(--title);color:var(--muted);letter-spacing:1px;margin-bottom:4px}
 .chTip i{display:inline-block;width:8px;height:8px;margin-right:6px;background:var(--c)}
-`;  // le style de ce plugin (il utilise les variables du thème de NeoBase)
+`;  // le style de ce plugin (il utilise les variables du thème de NeoDex)
 export default async function (ctx) {
   const view = ctx.view;
-  if (!ctx.host) { view.textContent = "Ce plugin doit être approuvé par NeoBase pour s'ouvrir."; return; }
+  if (!ctx.host) { view.textContent = "Ce plugin doit être approuvé par NeoDex pour s'ouvrir."; return; }
   const host = ctx.host, { el, toast, sfx, ask, newTab, pixIcon, PIX, WX } = host;
   const folder = ctx.folder, legacy = ctx.legacy || {};
   ctx.host.addStyle(CSS);
@@ -33,7 +33,7 @@ export default async function (ctx) {
   const $ = id => id === "meteoApp" ? view : (view.querySelector('#' + id) || document.getElementById(id));  // les identifiants de ta vue d'abord, puis ceux de la page (fenêtres, menus)
   const doc = async n => { try { return await folder.read(n); } catch { return null; } };
   const __icon = () => ctx.icon;  // l'icône de ce plugin
-  const prefs = new Proxy({}, { get: (_, k) => host.pref(k) });  // les réglages de NeoBase, en lecture seule
+  const prefs = new Proxy({}, { get: (_, k) => host.pref(k) });  // les réglages de NeoDex, en lecture seule
   // ---- ton code d'origine ----
 const WX_LABEL = {sun: 'Ensoleillé', moon: 'Dégagé', partly: 'Éclaircies', cloud: 'Couvert', fog: 'Brouillard', rain: 'Pluie', snow: 'Neige', storm: 'Orage'};
 const wxKind = (c, day) => c === 0 ? (day ? 'sun' : 'moon') : c <= 2 ? 'partly' : c === 3 ? 'cloud' : c <= 48 ? 'fog'

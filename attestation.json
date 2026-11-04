@@ -1,6 +1,6 @@
 {
-  "pluginId": "neobase.meteo",
-  "repo": "NDesumeur/neobase-plugin-meteo",
+  "pluginId": "neodex.meteo",
+  "repo": "NDesumeur/neodex-plugin-meteo",
   "version": "1.0.1",
   "sha256": "4e18b3e5b6bcb3403f8dbd6a260bc37539155a2d045f9454fe8bb26fc10c5935",
   "approvedAt": "2026-10-31T17:51:20.963Z",
