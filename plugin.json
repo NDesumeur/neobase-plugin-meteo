@@ -1,7 +1,7 @@
 {
   "id": "neodex.meteo",
   "name": "Météo",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": "NDesumeur",
   "description": "Prévisions sur 10 jours, heure par heure, et qualité de l'air pour ta ville (Open-Meteo).",
   "icon": "icon.png",
